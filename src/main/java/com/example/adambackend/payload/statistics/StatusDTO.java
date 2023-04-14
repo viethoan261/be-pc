@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class StatusDTO {
 //    private Integer statusCode;
     private String label;
-    private Double amount;
+    private long amount;
 }

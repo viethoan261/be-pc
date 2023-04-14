@@ -82,7 +82,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<Order> orders = orderRepository.findAll();
         List<StatusDTO> status = orders.stream()
                 .collect(Collectors.groupingBy(Order::getStatus,
-                        Collectors.summingDouble(Order::getAmountPrice)))
+                        Collectors.counting()))
                 .entrySet().stream()
                 .map(e -> new StatusDTO(e.getKey().toString(), e.getValue()))
                 .collect(Collectors.toList());
@@ -100,25 +100,25 @@ public class StatisticsServiceImpl implements StatisticsService {
         StackDTO materials = new StackDTO();
         StackDTO categories = new StackDTO();
         StackDTO tags = new StackDTO();
-        List<Color> c = colorRepository.findAll();
+        List<Color> c = colorRepository.getAll();
         colors.setLabel("Màu");
         colors.setTotal(c.size());
         colors.setIsActive(c.stream().filter(t -> t.getIsActive() == true).collect(Collectors.toList()).size());
         stacked.setColors(colors);
 
-        List<Material> m = materialRepository.findAll();
+        List<Material> m = materialRepository.getAll();
         materials.setLabel("Nguyên liệu");
         materials.setTotal(m.size());
         materials.setIsActive(m.stream().filter(t -> t.getIsActive() == true).collect(Collectors.toList()).size());
         stacked.setMaterials(materials);
 
-        List<Category> ca = categoryRepository.findAll();
+        List<Category> ca = categoryRepository.getAll();
         categories.setLabel("Phân loại");
         categories.setTotal(ca.size());
         categories.setIsActive(ca.stream().filter(t -> t.getIsActive() == true).collect(Collectors.toList()).size());
         stacked.setCategories(categories);
 
-        List<Tag> t = tagRepository.findAll();
+        List<Tag> t = tagRepository.getAll();
         tags.setLabel("Tags");
         tags.setTotal(c.size());
         tags.setIsActive(t.stream().filter(i -> i.getIsActive() == true).collect(Collectors.toList()).size());

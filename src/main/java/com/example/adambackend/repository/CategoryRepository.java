@@ -1,6 +1,7 @@
 package com.example.adambackend.repository;
 
 import com.example.adambackend.entities.Category;
+import com.example.adambackend.entities.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query(value = "select c from Category c where c.isActive=true and c.isDeleted=false and c.categoryName like concat('%',:name,'%') order by c.createDate desc")
     List<Category> findAll(@Param("name") String name);
+
+    @Query(value = "select * from categories where is_deleted=0", nativeQuery = true)
+    List<Category> getAll();
 }

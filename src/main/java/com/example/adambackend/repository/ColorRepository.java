@@ -27,4 +27,7 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
 
     @Query(value = "select c from Color c where c.isActive=true and c.isDeleted=false and c.colorName like concat('%',:name,'%') order by c.createDate ")
     List<Color> findAll(@Param("name") String name);
+
+    @Query(value = "select * from colors where is_deleted=0 order by create_date", nativeQuery = true)
+    List<Color> getAll();
 }
