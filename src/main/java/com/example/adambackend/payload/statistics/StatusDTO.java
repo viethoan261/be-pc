@@ -11,4 +11,5 @@ public class StatusDTO {
 //    private Integer statusCode;
     private String label;
     private long amount;
+    private Double money;
 }

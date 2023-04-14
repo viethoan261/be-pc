@@ -82,10 +82,14 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<Order> orders = orderRepository.findAll();
         List<StatusDTO> status = orders.stream()
                 .collect(Collectors.groupingBy(Order::getStatus,
-                        Collectors.counting()))
+                        Collectors.groupingBy(Order::getAmountPrice,
+                                Collectors.counting())))
                 .entrySet().stream()
-                .map(e -> new StatusDTO(e.getKey().toString(), e.getValue()))
+                .map(e -> new StatusDTO(e.getKey().toString(),
+                        e.getValue().values().stream().mapToLong(Long::longValue).sum(),
+                        e.getValue().keySet().stream().mapToDouble(Double::doubleValue).sum()))
                 .collect(Collectors.toList());
+
         for (StatusDTO s: status
            ) {
             s.setLabel(this.setLabel(Integer.parseInt(s.getLabel())));
